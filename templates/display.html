@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="dis" method="POST">
+    <h1>Enter the number of times you want to run the query?</h1>
+    <div class="mb-3">
+      <label for="m1" class="form-label">Mag1 </label>
+      <input type="text" class="form-control" name="m1" >
+    </div>
+    <div class="mb-3">
+        <label for="m2" class="form-label">Mag2 </label>
+        <input type="text" class="form-control" name="m2" >
+      </div>
+    
+    <button type="submit" class="btn btn-dark">Submit</button>
+</form>
+<br>
+<br>
+<div>
+    <table class="table table-dark table-striped">
+    {% for i in data %}
+    <tr>
+        {% for x in i %}
+        <td>
+            {{x}}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </table>
+    
+    </div>
+
+
+    <br>
+    <br>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <canvas id="lineChart" width="900" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        var lineChart = new Chart(ctx,{
+            type: 'bar',
+            data: {
+                labels: {{labels | safe}},
+                datasets: [
+                    {
+                    label: 'Magnitude Range= {{mag1 | safe}} - {{mag2 | safe}}',
+                    data: {{values | safe}},
+                    file: false,
+                    borderColor: "rgb(90,192,192)",
+                    lineTension: 0.1
+                    }
+                ]
+            },
+            options:{
+                resposive:true
+              
+            }
+        });
+</script>
+
+{% endblock %}
